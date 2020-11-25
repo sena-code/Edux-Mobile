@@ -22,15 +22,15 @@ const Ranking = () => {
 
     const renderItem = () => {
         return (
-            <View
-                notas={nota.item.Nota}
-               />
+            <View>
+                <Text> notas={nota.item.Nota}</Text>
+            </View>
         )
     }   
     return (
         <View style={styles.container} >
             <Text>Ranking</Text>
-             <FlatList 
+            <FlatList 
                 data={nota}
                 keyExtractor={item => item.id}
                 renderItem={renderItem}
