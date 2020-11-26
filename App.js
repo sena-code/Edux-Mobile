@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Login from './pages/login';
 import TimeLine from './pages/Timeline';
+import Ranking from './pages/Ranking';
 
 const Stack  = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -30,6 +31,7 @@ const Aluno = ({navigation}) => {
     <Drawer.Navigator initialRouteName="TimeLine">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
       <Drawer.Screen name="Logout" component={Logout} />
+      <Drawer.Screen name="Ranking" component={Ranking} />
     </Drawer.Navigator>
   )
 }
