@@ -72,8 +72,8 @@ const Login = ({ navigation }) => {
         >
             
                 <View style={styles.container}>
-                    <Text style={{ fontSize: 80, color: 'white'}}>Edux</Text>
-                    <Text style={styles.textoHeader}>LOGIN</Text>
+                    <Image source={{uri : 'https://raw.githubusercontent.com/sena-code/Edux-react/main/src/assets/img/logo_branco_2-8.png'}} style={{width: 150, height : 80, marginBottom : 85}} />
+                    
                     <TextInput
                         style={styles.input}
                         placeholder="Email"
