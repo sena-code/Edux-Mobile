@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
+import Dicas from './pages/Dicas';
 import Login from './pages/login';
 import TimeLine from './pages/Timeline';
 
@@ -18,6 +18,7 @@ const Professor = () => {
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
       <Drawer.Screen name="Logout" component={Logout} />
+
     </Drawer.Navigator>
   )
 }
@@ -26,6 +27,7 @@ const Aluno = () => {
   return (
     <Drawer.Navigator initialRouteName="TimeLine">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
+      <Drawer.Screen name="Dicas" component={Dicas} />
       <Drawer.Screen name="Logout" component={Logout} />
     </Drawer.Navigator>
   )

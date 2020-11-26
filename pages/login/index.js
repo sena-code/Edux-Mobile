@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     textoHeader: {
         color: 'white',
         margin: 10,
-        fontWeight: 700,
+        fontWeight: 'bold',
         marginBottom: 15,
         fontSize: 24
     },
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingLeft: 10,
         borderRadius: 10,
-        fontWeight: 1000
+        fontWeight: 'bold'
     },
     button: {
         backgroundColor: 'white',
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textButton: {
-        fontWeight: 1000,
+        fontWeight: 'bold',
         color: 'black'
     }
 
