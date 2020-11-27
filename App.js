@@ -1,16 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack'
-import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Dicas from './pages/Dicas';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { Screen, screensEnabled } from 'react-native-screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Turma from './pages/Turma';
 import Login from './pages/login';
 import TimeLine from './pages/Timeline';
+import Ranking from './pages/Ranking';
 
-const Stack = createStackNavigator();
-
+const Stack  = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
 
 
 const Professor = () => {
@@ -23,12 +26,13 @@ const Professor = () => {
   )
 }
 
-const Aluno = () => {
+const Aluno = ({navigation}) => {
   return (
     <Drawer.Navigator initialRouteName="TimeLine">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
-      <Drawer.Screen name="Dicas" component={Dicas} />
+      <Drawer.Screen name="Turma" component={Turma} />
       <Drawer.Screen name="Logout" component={Logout} />
+      <Drawer.Screen name="Ranking" component={Ranking} />
     </Drawer.Navigator>
   )
 }
@@ -38,7 +42,7 @@ const Logout = ({ navigation }) => {
     <View style={styles.container}>
       <Text>Deseja realmente sair da aplicação?</Text>
       <TouchableOpacity onPress={() => {
-        AsyncStorage.removeItem('@jwt');
+        AsyncStorage.removeItem('token');
         navigation.push('Login');
       }} style={styles.button}>
         <Text style={{color: 'white'}}>Sair</Text>

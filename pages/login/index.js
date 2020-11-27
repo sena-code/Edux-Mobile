@@ -18,20 +18,7 @@ const Login = ({ navigation }) => {
         }
     }
 
-    const GetItem = async () => {
-        {
-            try {
-                const usuario = await AsyncStorage.getItem('@jwt');
-                if(value !== null) {
-                    return "Token sem valor";
-                }
-
-            }
-            catch (e) {
-                // error reading value
-            }
-        }
-    }
+   
     const Logar = () => {
 
         const corpo = {
@@ -58,23 +45,21 @@ const Login = ({ navigation }) => {
             .then(data => {
                 console.log(data);
 
-            AsyncStorage.setItem('token', data.token)
-            const token = localStorage.getItem('token')
+                salvar(data.token)
+         
 
-            let usuario = jwt_decode(token);
-
-            console.log(usuario);
+            
                     
+            if(data.status != 404){
+                alert('Login efetuado com sucesso!')
+                salvar(data.token)
+                navigation.push('Aluno')
+            }else{
+                alert('Dados incorretos')
+            }
                
 
                
-                    if(usuario.role == 'Administrador'){
-                        navigation.push('Professor');
-                        alert('Seja Bem Vindo Professor ;)');
-                    } else if (usuario.role == 'Comum') {
-                        navigation.push('Aluno');
-                        alert('Seja Bem Vindo Aluno');
-                    }
             })
             .catch(err => console.error(err))
 
@@ -87,7 +72,7 @@ const Login = ({ navigation }) => {
         >
             
                 <View style={styles.container}>
-                    <Text style={{fontWeight: 1000, fontSize: 80, color: 'white'}}>Edux</Text>
+                    <Text style={{ fontSize: 80, color: 'white'}}>Edux</Text>
                     <Text style={styles.textoHeader}>LOGIN</Text>
                     <TextInput
                         style={styles.input}
@@ -128,7 +113,7 @@ const styles = StyleSheet.create({
     textoHeader: {
         color: 'white',
         margin: 10,
-        fontWeight: 'bold',
+       
         marginBottom: 15,
         fontSize: 24
     },
@@ -143,7 +128,7 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingLeft: 10,
         borderRadius: 10,
-        fontWeight: 'bold'
+      
     },
     button: {
         backgroundColor: 'white',
@@ -155,7 +140,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textButton: {
-        fontWeight: 'bold',
+      
         color: 'black'
     }
 

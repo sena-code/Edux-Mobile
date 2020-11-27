@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, Text, KeyboardAvoidingView, Platform, View, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { url } from '../../utils/constants';
 
-import ItemPost from '../../components/itemPost/itemPost'
+import {ItemPost} from '../../components/itemPost/itemPost'
 
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,7 +13,7 @@ const TimeLine = ({navigation}) => {
     const [idUsuario, setIdUsuario] = useState('');
     const [usuario, setUsuario] = useState([]);
     const [urlImagem, setUrlImagem] = useState('');
-    const [post, setPost] = useState([]);
+    const [post, setPosts] = useState([]);
     const [texto, setTexto] = useState('');
     const [Imagem, setImagem] = useState('');
   
@@ -31,6 +31,7 @@ const TimeLine = ({navigation}) => {
       fetch(`${url}/Usuario`)
       .then(response => response.json())
       .then(dados => {
+          console.log(dados);
           setUsuario(dados);
           
           limparCampo();
@@ -42,43 +43,33 @@ const TimeLine = ({navigation}) => {
     const listarPost = () => {
       fetch(`${url}/Post`, {
           headers : {
-              'authorization' : 'Bearer ' + AsyncStorage.getItem('@jwt')
+              'authorization' : 'Bearer ' + AsyncStorage.getItem('token')
           }
       })
       .then(response => response.json())
       .then(dados => {
-          setPost(dados.data);
-          console.log(dados.data);
+        console.log(dados.data);
+          setPosts(dados.data);
+          
 
       })
       .catch(err => console.error(err));
-    }
-    const GetItem = async () => {
-        {
-            try {
-                const usuario = await AsyncStorage.getItem('@jwt');
-                if(value !== null) {
-                    return "Token sem valor";
-                }
-
-            }
-            catch (e) {
-                // error reading value
-            }
-        }
     }
 
     const salvar = (event) => {
         event.preventDefault();
         
         
-        let usuario = GetItem();
-      
+     
+        AsyncStorage.setItem('@jwt', data.token)
+        const token = AsyncStorage.getItem('@jwt')
+
+        let usuario = jwt_decode(token);
       
         const posts = {
-            texto : texto,
+            texto : textos,
             idUsuario : usuario.idUsuario,
-            urlImagem : urlImagem
+            urlImagem : urlImagems
         }
 
         
@@ -136,18 +127,35 @@ const TimeLine = ({navigation}) => {
         setUrlImagem('');
     }
 
-    const renderItem = (post) => {
+    const Item = (post) => {
+        const {nome, textos, imagem} = post;
         return (
-            <ItemPost
-                nome={post.item.nome} 
-                texto={post.item.texto}
-                imagem={post.item.urlImagem}
-               />
+            <View style={styles.item} >
+               
+        <View >
+        <Text style={{fontWeight:"bold", flex: 20, color : "white"}}>{nome}</Text>
+        </View>
+        <View>
+        <Text style={{color: "white",  justifyContent:"center",alignItems:"center", paddingLeft: 40}}>{  textos}</Text>
+        </View>
+        <Image source={{uri:imagem}}  style={{width:300, height:300, borderRadius:30}} />
+    
+    </View>
+   
         )
-    }   
+    }
+
+
+        const renderItem = ({ item }) => (
+            <Item nome={item.usuario.nome}  textos={item.texto} imagem={item.urlImagem} />
+          );
+      
     return (
         <View>
             <Text>TIMELINE</Text>
+            <Image source={{uri:'https://raw.githubusercontent.com/sena-code/Edux-react/main/src/assets/img/logo_2.png'}} style={{width : 250, height: 250, alignItems : "center"}}/>
+    <Text>{texto}</Text>
+    
              <FlatList 
                 data={post}
                 keyExtractor={item => item.id}
@@ -159,3 +167,21 @@ const TimeLine = ({navigation}) => {
 }
 
 export default TimeLine;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#F7F7F7',
+      marginTop:60
+    },
+    item:{
+        margin:10,
+        padding:10,
+        backgroundColor:"#000",
+        width:"80%",
+        flex:1,
+        alignSelf:"center",
+        flexDirection:"row",
+        borderRadius:5
+    }
+  });
