@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, Text, KeyboardAvoidingView, Platform, View, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard , SafeAreaView, ScrollView} from 'react-native';
 import { url } from '../../utils/constants';
 import Constants from 'expo-constants';
-import ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import jwt_decode from 'jwt-decode';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,26 +16,34 @@ const TimeLine = ({navigation}) => {
     const [post, setPosts] = useState([]);
     const [texto, setTexto] = useState('');
     const [Imagem, setImagem] = useState('');
+    
+    const [token, setToken] = useState('');
   
     
     const salvarToken = async (value) => {
         try {
-            await AsyncStorage.setItem('@jwt', value)
+
+            await AsyncStorage.setItem('token-edux', value)
+            
         } catch (e) {
             // saving error
         }
     }
   
+
 const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@jwt')
-      if(value !== null) {
-        // value previously stored
+  try {
+    const value = await AsyncStorage.getItem('token-edux')
+    if(value !== null) {
+        setToken(value);
       }
-    } catch(e) {
-      // error reading value
-    }
+    
+  } catch(e) {
+    // error reading value
   }
+}
+
+
   
   
    
@@ -43,6 +51,7 @@ const getData = async () => {
     useEffect(() => {
       listarPost();
       listarUsuario();
+      getData();
   }, [])
 
    const listarUsuario = () => {
@@ -78,16 +87,17 @@ const getData = async () => {
         event.preventDefault();
         
         
-     
+        
        
-        const token = getData();
-
+        
+        
+        
         let usuario = jwt_decode(token);
       
         const posts = {
-            texto : textos,
+            texto : texto,
             idUsuario : usuario.idUsuario,
-            urlImagem : urlImagems
+            urlImagem : urlImagem
         }
 
         
@@ -99,7 +109,7 @@ const getData = async () => {
             body : JSON.stringify(posts), 
             headers : {
                 'content-type' : 'application/json',
-                'authorization' : 'Bearer ' + AsyncStorage.getItem('@jwt')
+                'authorization' : 'Bearer ' + AsyncStorage.getItem('token-edux')
             }
         })
         .then(response => response.json())
@@ -114,30 +124,23 @@ const getData = async () => {
         .catch(err => console.error(err))
     }
 
-    async function imagePickerCall() {
-        if (Constants.platform.ios) {
-          const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    
-          if (status !== "granted") {
-            alert("Nós precisamos dessa permissão.");
-            return;
-          }
-        }
-    
-        const data = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
         });
     
-        if (data.cancelled) {
-          return;
-        }
+        console.log(result);
     
-        if (!data.uri) {
-          return;
+        if (!result.cancelled) {
+          setUrlImagem(result.uri);
         }
+      };
     
-        setUrlImagem(data);
-      }
+     
+    
 
     const uploadFile = (event) => {
         event.preventDefault()
@@ -152,13 +155,13 @@ const getData = async () => {
             method : 'POST',
             body : formdata,
             headers : {
-                'authorization' : 'Bearer ' + AsyncStorage.getItem('@jwt')
+                'authorization' : 'Bearer ' + AsyncStorage.getItem('token-edux')
             }
         })
         .then(response => response.json())
         .then(data =>{
             console.log(data)
-            setUrlImagem(data.url);
+            setUrlImagem(data.uri);
         })
         .catch(err => console.error(err))
     }
@@ -197,9 +200,8 @@ const getData = async () => {
             
            
 
-           <View style={styles.container}>
                
-           <Image source={{uri:'https://raw.githubusercontent.com/sena-code/Edux-react/main/src/assets/img/logo_2.png'}} style={{width : 150, height: 65, marginTop : 68}}/>
+           
            <TextInput
                         style={styles.input}
                         placeholder="Digite aqui"
@@ -209,10 +211,13 @@ const getData = async () => {
                        
                     />
 
-            <TouchableOpacity style={styles.button} onPress={imagePickerCall} onChange={event => uploadFile(event)}>
+            <TouchableOpacity style={styles.button}  onPress={pickImage} onChange={event => uploadFile(event)} >
+            
                <Text style={styles.buttonText}>Escolher imagem</Text>
+     
+              
                  </TouchableOpacity>
-                
+                 
 
 
                     <TouchableOpacity
@@ -222,7 +227,6 @@ const getData = async () => {
                         <Text style={styles.textButton}>Postar</Text>
                     </TouchableOpacity>
           
-                    </View>
              <FlatList 
                 data={post}
                 keyExtractor={item => item.id}

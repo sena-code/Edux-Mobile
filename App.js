@@ -28,10 +28,11 @@ const Professor = () => {
 
 const Aluno = ({navigation}) => {
   return (
-    <Drawer.Navigator initialRouteName="TimeLine">
+    <Drawer.Navigator screenOptions={{ headerShown : true}} initialRouteName="TimeLine">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
-      <Drawer.Screen name="Logout" component={Logout} />
       <Drawer.Screen name="Ranking" component={Ranking} />
+      <Drawer.Screen name="Logout" component={Logout} />
+      
     </Drawer.Navigator>
   )
 }

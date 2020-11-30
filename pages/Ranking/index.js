@@ -1,46 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, StyleSheet } from 'react-native';
-import { url } from '../../utils/constants';
+import React, {useState, useEffect} from 'react';
+import {View, FlatList, Text, StyleSheet} from 'react-native';
+import {url} from '../../utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Ranking = () => {
 
-    const [nota, setNota] = useState([])
+    const [nota , setNota] = useState([])
 
-    const PegarNotas = () => {
-
-        fetch(`${url}/ObjetivoAluno`, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
+    const PegarNotas =() => {
+        
+        fetch(`${url}/ObjetivoAluno`
+           
+        )
+        .then(response => response.json())
+        .then(dados => {
+            setNota(dados.data);
         })
-            .then(response => response.json())
-            .then(dados => {
-                setNota(dados);
-            })
 
     }
 
-    useEffect(() => { PegarNotas(), Ordenar() })
-
-    const Ordenar = () => {
-        nota.filter(a => {
-            return
-        })
-    }
-
-    const renderItem = () => {
+    useEffect(() => {
+        PegarNotas();
+    }, [])
+    
+    const Item = (notas) => {
+        const {nota} = notas;
         return (
-            <View>
-                <Text> notas={nota.item.Nota}</Text>
-            </View>
+            <View style={styles.item} >
+               
+        <View >
+        <Text style={{fontWeight:"bold", flex: 20, color : "white"}}>{nota}</Text>
+        </View>
+      
+    
+    </View>
+   
         )
     }
+
+    const renderItem = ({item}) => {
+        return (
+            <Item nota={item.nota}/>
+        )
+    }   
     return (
         <View style={styles.container} >
             <Text>Ranking</Text>
-            <FlatList
-                style={styles.circulo,
-                    backgroundColor = '#000'}
+            <FlatList 
                 data={nota}
                 keyExtractor={item => item.id}
                 renderItem={renderItem}
@@ -51,15 +56,21 @@ const Ranking = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f8f8',
+        backgroundColor: "#000",
         alignItems: 'center',
         justifyContent: 'center',
     },
-    circulo: {
-        height: 30,
-        width: 30,
-        borderRadius: 30,
-    },
-
+    item:{
+        margin:10,
+        marginTop: 40,
+        padding:8,
+        
+        backgroundColor:"#000",
+        width:"100%",
+      
+        alignSelf:"center",
+       
+        borderRadius:5
+    }
 })
 export default Ranking;
