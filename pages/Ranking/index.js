@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, StyleSheet } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Button } from 'react-native';
 import { url } from '../../utils/constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 const Ranking = () => {
 
-    const [nota, setNota] = useState([])
+    const [notas, setNotas] = useState([])
+    const [nts, setNts] = useState([])
+    const [notao, setNotao] = useState([])
+
 
     const PegarNotas = () => {
 
@@ -14,38 +16,105 @@ const Ranking = () => {
             }
         })
             .then(response => response.json())
-            .then(dados => {
-                setNota(dados);
+            .then(data => {
+                setNotas(data.data);
+                console.log(notas);
             })
+            .catch(err => console.error(err))
 
     }
 
-    useEffect(() => { PegarNotas(), Ordenar() })
 
     const Ordenar = () => {
-        nota.filter(a => {
-            return
-        })
+        // notas.sort(compararNumeros)
+        // console.log(notas)
+
+        // function compararNumeros(a, b) {
+        //     return a - b;
+        // }
+        //============================
+
+        setNts(notas.map(p => p.nota))
+
+        nts.sort(function (b, a) {
+
+            return a - b;
+
+        });
+        console.log(nts);
+
+        let zero = nts[0];
+        // let um = nts[1];
+        let dois = nts[2];
+
+
+        console.log(zero)
+        console.log(dois)
+
+        for (let x = 0; x < notas.length; x++) 
+        {
+            if (zero === notas.map(p => p.nota)[x]) {
+                setNotao(notas[x])
+                alert('if funfo 10')
+            }
+           
+        }
+        console.log(notao)
+
+        for (let x = 0; x < notas.length; x++) 
+        {
+            if (nts[1] === notas.map(p => p.nota)[x]) {
+                setNotao(notas[x])
+                alert('if funfo 9')
+            }
+           
+        }
+        console.log(notao)
+
+        for (let x = 0; x < notas.length; x++) 
+        {
+            if (dois === notas.map(p => p.nota)[x]) {
+                setNotao(notas[x])
+                alert('if funfo 8')
+            }
+           
+        }
+  
+        console.log(notao)
     }
 
-    const renderItem = () => {
+
+
+    const ObjetiAluno = ({ NotaAluno }) => {
         return (
             <View>
-                <Text> notas={nota.item.Nota}</Text>
+                <Text style={styles.circulo} > {NotaAluno} </Text>
             </View>
-        )
+        );
     }
+
     return (
         <View style={styles.container} >
-            <Text>Ranking</Text>
+            <Text>Ranking</Text >
             <FlatList
-                style={styles.circulo,
-                    backgroundColor = '#000'}
-                data={nota}
+
+                data={notas}
                 keyExtractor={item => item.id}
-                renderItem={renderItem}
+                renderItem={({ item }) => <ObjetiAluno NotaAluno={item.nota} />}
             />
-        </View>
+            <Button
+                onPress={PegarNotas}
+                title="Listar"
+                color="#777"
+                accessibilityLabel="Listar"
+            />
+            <Button
+                onPress={Ordenar}
+                title="Ordenar"
+                color="#777"
+                accessibilityLabel="Ordenar"
+            />
+        </View >
     )
 }
 const styles = StyleSheet.create({
@@ -56,9 +125,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     circulo: {
-        height: 30,
-        width: 30,
-        borderRadius: 30,
+        height: 70,
+        width: 70,
+        borderRadius: 70,
+        backgroundColor: '#000',
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: 20,
+        paddingTop: 21,
+        fontSize: 20,
+    },
+    text: {
+        color: '#000',
     },
 
 })
