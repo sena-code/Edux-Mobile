@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
 
     const salvar = async (value) => {
         try {
-            await AsyncStorage.setItem('@jwt', value)
+            await AsyncStorage.setItem('token-edux', value)
         } catch (e) {
             // saving error
         }

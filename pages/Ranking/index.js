@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, StyleSheet, Button } from 'react-native';
 import { url } from '../../utils/constants';
@@ -7,13 +8,14 @@ const Ranking = () => {
     const [nts, setNts] = useState([])
     const [notao, setNotao] = useState([])
 
-
-    const PegarNotas = () => {
-
-        fetch(`${url}/ObjetivoAluno`, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
+    const PegarNotas =() => {
+        
+        fetch(`${url}/ObjetivoAluno`
+           
+        )
+        .then(response => response.json())
+        .then(dados => {
+            setNota(dados.data);
         })
             .then(response => response.json())
             .then(data => {
@@ -99,6 +101,7 @@ const Ranking = () => {
             <FlatList
 
                 data={notas}
+
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => <ObjetiAluno NotaAluno={item.nota} />}
             />
@@ -120,10 +123,11 @@ const Ranking = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f8f8',
+        backgroundColor: "#000",
         alignItems: 'center',
         justifyContent: 'center',
     },
+
     circulo: {
         height: 70,
         width: 70,
@@ -138,6 +142,9 @@ const styles = StyleSheet.create({
     text: {
         color: '#000',
     },
+
+
+
 
 })
 export default Ranking;
