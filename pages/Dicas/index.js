@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, Text, KeyboardAvoidingView, Platform, View, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { url } from '../../utils/constants';
-import ItemPost from '../../components/itemPost/itemPost'
+import ItemDicas from '../../components/itemPost/itemPost'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Dicas = ({navigation}) => {

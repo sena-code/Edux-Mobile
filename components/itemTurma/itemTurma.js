@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     listItem:{
       margin:10,
       padding:10,
-      backgroundColor:"#FFF",
+      backgroundColor:"black",
       width:"80%",
       flex:1,
       alignSelf:"center",
@@ -19,22 +19,18 @@ const styles = StyleSheet.create({
     }
   });
 
-const ItemPost = (post) => {
-    const {nome, imagem, texto} = post;
+const itemTurma = (turma) => {
+    const {descricao, curso} = turma;
 
     return (
         <View style={styles.listItem}>
             
             <View style={{alignItems:"center",flex:1}}>
-                <Text style={{fontWeight:"bold"}}>{nome}</Text>
+                <Text style={{fontWeight:"bold"}}>{descricao}</Text>
+                <Text style={{fontWeight:"bold"}}>{curso}</Text>
             </View>
-            <View style={{alignItems:"center",flex:1}}>
-                <Text style={{fontWeight:"bold"}}>{texto}</Text>
-            </View>
-            <Image source={{uri:imagem}}  style={{width:60, height:60,borderRadius:30}} />
-           
         </View>
     )
 }
 
-export default ItemPost;
+export default itemTurma;
