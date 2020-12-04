@@ -161,7 +161,7 @@ const getData = async () => {
         .then(response => response.json())
         .then(data =>{
             console.log(data)
-            setUrlImagem(data.uri);
+            setUrlImagem(data.url);
         })
         .catch(err => console.error(err))
     }
