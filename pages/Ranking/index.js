@@ -4,9 +4,9 @@ import { View, FlatList, Text, StyleSheet, Button } from 'react-native';
 import { url } from '../../utils/constants';
 const Ranking = () => {
 
-    const [notas, setNotas] = useState([])
-    const [nts, setNts] = useState([])
-    const [notao, setNotao] = useState([])
+    const [notas, setNotas] = useState([]);
+    const [nts, setNts] = useState([]);
+    const [notao, setNotao] = useState([]);
 
     const PegarNotas =() => {
         
@@ -15,7 +15,7 @@ const Ranking = () => {
         )
         .then(response => response.json())
         .then(dados => {
-            setNota(dados.data);
+            setNotas(dados.data);
         })
             .then(response => response.json())
             .then(data => {
@@ -123,7 +123,7 @@ const Ranking = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000",
+        backgroundColor: "#fff",
         alignItems: 'center',
         justifyContent: 'center',
     },

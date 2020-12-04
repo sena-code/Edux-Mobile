@@ -5,46 +5,46 @@ import { url } from '../../utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const Item = ({descricao, idCurso}) => (
-  <View style={styles.item}>
-    <Text style={styles.titleT}>Turma/Semestre</Text>
-    <Text style={styles.title}>{descricao}  </Text>
-    <Text style={styles.titleT}>Curso</Text>
-    <Text style={styles.title}>{idCurso}</Text>
-  </View>
-);
 
 
-  const Turma = () => {
-    const [turma, setTurmas] = useState([]);
+  const Objetivo = () => {
+    const [objetivo, setObjetivoss] = useState([]);
 
     useEffect(() => {
-        listarTurmas();
+        listarObjetivos();
     },[])
 
-    const listarTurmas = () => {
-        fetch(`${url}/Turma`)
+    const listarObjetivos = () => {
+        fetch(`${url}/Objetivo`)
         .then(response => response.json())
         .then(dados => {
-            setTurmas(dados.data);
+            setObjetivoss(dados.data);
             console.log(dados.data);
           
         })
         .catch(err => console.error(err));
       }
-  
+      const Item = ({descricao, tipo}) => (
+        <View style={styles.item}>
+            <Text style={styles.titleT}>Objetivo</Text>
+          <Text style={styles.title}>{descricao}</Text>
+          <Text style={styles.titleT}>Categoria</Text>
+          <Text style={styles.title}>{tipo}</Text>
+        </View>
+      );
+      
     const renderItem = ({ item }) => (   
         <Item
          descricao={item.descricao} 
-         idCurso={item.curso.titulo} />
+         tipo={item.categoria.tipo} />
     );  
 
       return(
           <View  style={styles.container} >
             <ScrollView>
-            <Text style={styles.titulo}>Turmas</Text>
+            <Text style={styles.titulo}>Objetivos</Text>
            <FlatList 
-                data={turma}
+                data={objetivo}
                 keyExtractor={item => item.id}
                 renderItem={renderItem}
             />
@@ -83,14 +83,13 @@ const Item = ({descricao, idCurso}) => (
       display: "flex",
     },
     titleT: {
-      fontSize: 15,
-      padding: 10,
-      color: "black",
-      fontWeight:"bold",
-      display: "flex"
-    },
+        fontSize: 15,
+        padding: 10,
+        color: "black",
+        fontWeight:"bold",
+        display: "flex"
+      },
+    
   });
 
-  export default Turma;
-
-  
+  export default Objetivo;
