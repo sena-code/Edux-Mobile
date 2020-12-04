@@ -8,15 +8,20 @@ const Ranking = () => {
     const [nts, setNts] = useState([])
     const [notao, setNotao] = useState([])
 
-    const PegarNotas =() => {
-        
-        fetch(`${url}/ObjetivoAluno`
-           
-        )
-        .then(response => response.json())
-        .then(dados => {
-            setNota(dados.data);
-        })
+    useEffect(() => {
+        PegarNotas();
+        Ordenar();
+    }, [])
+
+
+    const PegarNotas = () => {
+
+        fetch(`${url}/ObjetivoAluno`,
+            {
+                headers: {
+                    'content-type': 'application/json',
+                }
+            })
             .then(response => response.json())
             .then(data => {
                 setNotas(data.data);
@@ -37,52 +42,41 @@ const Ranking = () => {
         //============================
 
         setNts(notas.map(p => p.nota))
+        console.log(notas.map(p => p.nota)[1])
 
         nts.sort(function (b, a) {
 
             return a - b;
 
         });
+        
+
         console.log(nts);
-
-        let zero = nts[0];
-        // let um = nts[1];
-        let dois = nts[2];
+        // console.log(notas[1].nota);
 
 
-        console.log(zero)
-        console.log(dois)
+        // for (let i = 0; i < 10; i ++) {
+            
+        //     let avaliar = notas.map(p => p.nota)[i]
+        //     console.log(i)
+        //     if (nts[0] === avaliar) {
+        //         setNotao(notas[i])
+        //         console.log(i)
+        //         console.log('if 10')
+        //     }
+        //     if (nts[1] === avaliar) {
+        //         setNotao(notas[i])
+        //         console.log('if funfo 9')
+        //     }
+        //     if (nts[2] === avaliar) {
+        //         setNotao(notas[i])
+        //         console.log('if funfo 8')
+        //     }
 
-        for (let x = 0; x < notas.length; x++) 
-        {
-            if (zero === notas.map(p => p.nota)[x]) {
-                setNotao(notas[x])
-                alert('if funfo 10')
-            }
-           
-        }
-        console.log(notao)
+        // }
 
-        for (let x = 0; x < notas.length; x++) 
-        {
-            if (nts[1] === notas.map(p => p.nota)[x]) {
-                setNotao(notas[x])
-                alert('if funfo 9')
-            }
-           
-        }
-        console.log(notao)
-
-        for (let x = 0; x < notas.length; x++) 
-        {
-            if (dois === notas.map(p => p.nota)[x]) {
-                setNotao(notas[x])
-                alert('if funfo 8')
-            }
-           
-        }
-  
-        console.log(notao)
+        // console.log(notao)
+        // console.log(notas.map(p => p.nota)[1])
     }
 
 
@@ -98,7 +92,7 @@ const Ranking = () => {
     return (
         <View style={styles.container} >
             <Text>Ranking</Text >
-            <FlatList
+             <FlatList
 
                 data={notas}
 
@@ -132,8 +126,8 @@ const styles = StyleSheet.create({
         height: 70,
         width: 70,
         borderRadius: 70,
-        backgroundColor: '#000',
-        color: '#fff',
+        backgroundColor: '#fff',
+        color: '#000',
         textAlign: 'center',
         marginTop: 20,
         paddingTop: 21,
