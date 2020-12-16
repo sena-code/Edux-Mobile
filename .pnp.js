@@ -11509,7 +11509,7 @@ var sources_path = __webpack_require__(9);
 class NodeFS extends FakeFS/* BasePortableFakeFS */.fS {
   constructor(realFs = (external_fs_default())) {
     super();
-    this.realFs = realFs; // @ts-expect-error
+    this.realFs = realFs;
 
     if (typeof this.realFs.lutimes !== `undefined`) {
       this.lutimesPromise = this.lutimesPromiseImpl;
@@ -11750,7 +11750,6 @@ class NodeFS extends FakeFS/* BasePortableFakeFS */.fS {
   }
 
   async lutimesPromiseImpl(p, atime, mtime) {
-    // @ts-expect-error: Not yet in DefinitelyTyped
     const lutimes = this.realFs.lutimes;
     if (typeof lutimes === `undefined`) throw ENOSYS(`unavailable Node binding`, `lutimes '${p}'`);
     return await new Promise((resolve, reject) => {
@@ -11759,7 +11758,6 @@ class NodeFS extends FakeFS/* BasePortableFakeFS */.fS {
   }
 
   lutimesSyncImpl(p, atime, mtime) {
-    // @ts-expect-error: Not yet in DefinitelyTyped
     const lutimesSync = this.realFs.lutimesSync;
     if (typeof lutimesSync === `undefined`) throw ENOSYS(`unavailable Node binding`, `lutimes '${p}'`);
     lutimesSync.call(this.realFs, sources_path/* npath.fromPortablePath */.cS.fromPortablePath(p), atime, mtime);
@@ -11873,12 +11871,12 @@ class NodeFS extends FakeFS/* BasePortableFakeFS */.fS {
   }
 
   watch(p, a, b) {
-    return this.realFs.watch(sources_path/* npath.fromPortablePath */.cS.fromPortablePath(p), // @ts-expect-error
+    return this.realFs.watch(sources_path/* npath.fromPortablePath */.cS.fromPortablePath(p),
     a, b);
   }
 
   watchFile(p, a, b) {
-    return this.realFs.watchFile(sources_path/* npath.fromPortablePath */.cS.fromPortablePath(p), // @ts-expect-error
+    return this.realFs.watchFile(sources_path/* npath.fromPortablePath */.cS.fromPortablePath(p),
     a, b);
   }
 
@@ -12147,12 +12145,12 @@ class ProxiedFS extends FakeFS/* FakeFS */.uY {
   }
 
   watch(p, a, b) {
-    return this.baseFs.watch(this.mapToBase(p), // @ts-expect-error
+    return this.baseFs.watch(this.mapToBase(p),
     a, b);
   }
 
   watchFile(p, a, b) {
-    return this.baseFs.watchFile(this.mapToBase(p), // @ts-expect-error
+    return this.baseFs.watchFile(this.mapToBase(p), 
     a, b);
   }
 
@@ -13646,7 +13644,7 @@ class ZipFS extends FakeFS/* BasePortableFakeFS */.fS {
 
   async readFilePromise(p, encoding) {
     // This is messed up regarding the TS signatures
-    if (typeof encoding === `object`) // @ts-expect-error
+    if (typeof encoding === `object`) 
       encoding = encoding ? encoding.encoding : undefined;
     const data = await this.readFileBuffer(p, {
       asyncDecompress: true
@@ -13656,7 +13654,7 @@ class ZipFS extends FakeFS/* BasePortableFakeFS */.fS {
 
   readFileSync(p, encoding) {
     // This is messed up regarding the TS signatures
-    if (typeof encoding === `object`) // @ts-expect-error
+    if (typeof encoding === `object`) 
       encoding = encoding ? encoding.encoding : undefined;
     const data = this.readFileBuffer(p);
     return encoding ? data.toString(encoding) : data;
@@ -14588,19 +14586,19 @@ class ZipOpenFS extends FakeFS/* BasePortableFakeFS */.fS {
 
   watch(p, a, b) {
     return this.makeCallSync(p, () => {
-      return this.baseFs.watch(p, // @ts-expect-error
+      return this.baseFs.watch(p, 
       a, b);
     }, (zipFs, {
       subPath
     }) => {
-      return zipFs.watch(subPath, // @ts-expect-error
+      return zipFs.watch(subPath,
       a, b);
     });
   }
 
   watchFile(p, a, b) {
     return this.makeCallSync(p, () => {
-      return this.baseFs.watchFile(p, // @ts-expect-error
+      return this.baseFs.watchFile(p, 
       a, b);
     }, () => {
       return watchFile(this, p, a, b);
@@ -15127,7 +15125,7 @@ function patchFs(patchedFs, fakeFs) {
       }
 
       setupFn(patchedFsPromises, `open`, async (...args) => {
-        // @ts-expect-error
+       
         const fd = await fakeFs.openPromise(...args);
         return new FileHandle(fd);
       }); // `fs.promises.realpath` doesn't have a `native` property
@@ -15340,7 +15338,7 @@ function getPathForDisplay(p) {
 
 
 function applyPatch(pnpapi, opts) {
-  // @ts-expect-error
+  
   const builtinModules = new Set(external_module_.Module.builtinModules || Object.keys(process.binding(`natives`)));
   /**
    * The cache that will be used for all accesses occuring outside of a PnP context.
@@ -15352,7 +15350,7 @@ function applyPatch(pnpapi, opts) {
    * a way to "reset" the environment temporarily)
    */
 
-  let enableNativeHooks = true; // @ts-expect-error
+  let enableNativeHooks = true; 
 
   process.versions.pnp = String(pnpapi.VERSIONS.std);
 
@@ -15418,9 +15416,9 @@ function applyPatch(pnpapi, opts) {
 
     const cacheEntry = entry.cache[modulePath];
     if (cacheEntry) return cacheEntry.exports; // Create a new module and store it into the cache
-    // @ts-expect-error
+   
 
-    const module = new external_module_.Module(modulePath, parent); // @ts-expect-error
+    const module = new external_module_.Module(modulePath, parent);
 
     module.pnpApiPath = moduleApiPath;
     entry.cache[modulePath] = module; // The main module is exposed as global variable
@@ -15434,7 +15432,7 @@ function applyPatch(pnpapi, opts) {
     let hasThrown = true;
 
     try {
-      // @ts-expect-error
+
       module.load(modulePath);
       hasThrown = false;
     } finally {
@@ -15625,7 +15623,7 @@ function hydrateRuntimeState(data, {
   for (const [packageName, storeData] of data.packageRegistryData) {
     for (const [packageReference, packageInformationData] of storeData) {
       if (packageName === null !== (packageReference === null)) throw new Error(`Assertion failed: The name and reference should be null, or neither should`);
-      if (packageInformationData.discardFromLookup) continue; // @ts-expect-error: TypeScript isn't smart enough to understand the type assertion
+      if (packageInformationData.discardFromLookup) continue; 
 
       const packageLocator = {
         name: packageName,
@@ -15663,7 +15661,7 @@ function hydrateRuntimeState(data, {
 
 function makeApi(runtimeState, opts) {
   const alwaysWarnOnFallback = Number(process.env.PNP_ALWAYS_WARN_ON_FALLBACK) > 0;
-  const debugLevel = Number(process.env.PNP_DEBUG_LEVEL); // @ts-expect-error
+  const debugLevel = Number(process.env.PNP_DEBUG_LEVEL); 
 
   const builtinModules = new Set(external_module_.Module.builtinModules || Object.keys(process.binding(`natives`))); // Splits a require request into its components, or return null if the request is a file path
 
@@ -15874,7 +15872,7 @@ function makeApi(runtimeState, opts) {
 
 
   function makeFakeModule(path) {
-    // @ts-expect-error
+
     const fakeModule = new external_module_.Module(path, null);
     fakeModule.filename = path;
     fakeModule.paths = external_module_.Module._nodeModulePaths(path);
@@ -16464,9 +16462,9 @@ function makeManager(pnpapi, opts) {
   }]]);
 
   function loadApiInstance(pnpApiPath) {
-    const nativePath = sources_path/* npath.fromPortablePath */.cS.fromPortablePath(pnpApiPath); // @ts-expect-error
+    const nativePath = sources_path/* npath.fromPortablePath */.cS.fromPortablePath(pnpApiPath); 
 
-    const module = new external_module_.Module(nativePath, null); // @ts-expect-error
+    const module = new external_module_.Module(nativePath, null);
 
     module.load(nativePath);
     return module.exports;

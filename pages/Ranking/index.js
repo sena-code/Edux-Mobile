@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, StyleSheet, Button } from 'react-native';
 import { url } from '../../utils/constants';
@@ -8,11 +7,11 @@ const Ranking = () => {
     const [nts, setNts] = useState([])
     const [notao, setNotao] = useState([])
 
+
     useEffect(() => {
         PegarNotas();
         Ordenar();
     }, [])
-
 
     const PegarNotas = () => {
 
@@ -42,7 +41,6 @@ const Ranking = () => {
         //============================
 
         setNts(notas.map(p => p.nota))
-        console.log(notas.map(p => p.nota)[1])
 
         nts.sort(function (b, a) {
 
@@ -52,31 +50,32 @@ const Ranking = () => {
         
 
         console.log(nts);
-        // console.log(notas[1].nota);
+
+        let fLen = notas.length;
+        let nLen = nts.length;
+        let e 
+
+        for(e = 0; e < nLen; e++){
+
+            for (let i = 0; i < fLen; i++) {
+                
+                let avaliar = notas.map(p => p.nota)[i];
+                console.log('vavlor do i: '+i);
+                console.log('vavlor do avaliar: '+avaliar);
+                if (nts[e] === avaliar) {
+                    console.log('valor nts: ' + nts[e])
+                    notao.push(notas[i]);
+                    console.log('if funfo');
+                }
+                
+            }
+            console.log('valor do e: '+ e)
+
+        }
 
 
-        // for (let i = 0; i < 10; i ++) {
-            
-        //     let avaliar = notas.map(p => p.nota)[i]
-        //     console.log(i)
-        //     if (nts[0] === avaliar) {
-        //         setNotao(notas[i])
-        //         console.log(i)
-        //         console.log('if 10')
-        //     }
-        //     if (nts[1] === avaliar) {
-        //         setNotao(notas[i])
-        //         console.log('if funfo 9')
-        //     }
-        //     if (nts[2] === avaliar) {
-        //         setNotao(notas[i])
-        //         console.log('if funfo 8')
-        //     }
+        console.log(notao)
 
-        // }
-
-        // console.log(notao)
-        // console.log(notas.map(p => p.nota)[1])
     }
 
 
@@ -91,14 +90,15 @@ const Ranking = () => {
 
     return (
         <View style={styles.container} >
+
             <Text>Ranking</Text >
+
              <FlatList
-
-                data={notas}
-
+                data={notao} 
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => <ObjetiAluno NotaAluno={item.nota} />}
             />
+
             <Button
                 onPress={PegarNotas}
                 title="Listar"
