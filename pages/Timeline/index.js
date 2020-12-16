@@ -120,6 +120,7 @@ const getData = async () => {
        
          
             listarPost();
+            limparCampo();
         })
         .catch(err => console.error(err))
     }
@@ -161,7 +162,7 @@ const getData = async () => {
         .then(response => response.json())
         .then(data =>{
             console.log(data)
-            setUrlImagem(data.uri);
+            setUrlImagem(data.url);
         })
         .catch(err => console.error(err))
     }
@@ -183,7 +184,7 @@ const getData = async () => {
         <View>
         <Text style={{color: "white",  justifyContent:"center",alignItems:"center", paddingBottom: 25}}>{  textos}</Text>
         </View>
-        <Image source={{uri:imagem}}  style={{width: 355, height: 410}} />
+        <Image source={{uri:imagem}}  style={{width: 337, height: 310}} />
     
     </View>
    
@@ -196,11 +197,11 @@ const getData = async () => {
           );
       
     return (
-        <View >
+        <View style={styles.container} >
             
            
 
-               
+               <ScrollView>
            
            <TextInput
                         style={styles.input}
@@ -210,10 +211,11 @@ const getData = async () => {
                        
                        
                     />
+                    <View>
 
             <TouchableOpacity style={styles.button}  onPress={pickImage} onChange={event => uploadFile(event)} >
             
-               <Text style={styles.buttonText}>Escolher imagem</Text>
+               <Text style={styles.textButton}>Escolher imagem</Text>
      
               
                  </TouchableOpacity>
@@ -226,12 +228,14 @@ const getData = async () => {
                     >
                         <Text style={styles.textButton}>Postar</Text>
                     </TouchableOpacity>
+                    </View>
           
              <FlatList 
                 data={post}
                 keyExtractor={item => item.id}
                 renderItem={renderItem}
             />
+            </ScrollView>
         </View>
     )
 
@@ -242,7 +246,7 @@ export default TimeLine;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#f8f8f8',
+      backgroundColor: '#f7f7f7',
       alignItems: 'center',
         justifyContent: 'center',
     },
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
         padding:8,
         
         backgroundColor:"#000",
-        width:"100%",
+        width:"98%",
       
         alignSelf:"center",
        
@@ -265,8 +269,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderColor: 'white',
         borderWidth: 1,
-        marginTop: 80,
-        marginBottom: 80,
+        marginTop: 35,
+        marginBottom: 35,
         padding: 5,
         paddingLeft: 10,
         borderRadius: 10,
@@ -277,10 +281,12 @@ const styles = StyleSheet.create({
         width: 150,
         padding: 10,
         borderRadius: 10,
-        marginBottom: 80,
+        marginBottom: 35,
         marginTop: 20,
+        marginLeft: 100,
         alignItems: 'center',
         justifyContent: 'center',
+        
     },
     textButton: {
       

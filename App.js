@@ -5,12 +5,13 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { Screen, screensEnabled } from 'react-native-screens';
-
+import Turma from './pages/Turma';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Login from './pages/login';
 import TimeLine from './pages/Timeline';
 import Ranking from './pages/Ranking';
+import Objetivo from './pages/objetivo';
 
 const Stack  = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,6 +23,7 @@ const Professor = () => {
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
       <Drawer.Screen name="Logout" component={Logout} />
+
     </Drawer.Navigator>
   )
 }
@@ -31,6 +33,8 @@ const Aluno = ({navigation}) => {
     <Drawer.Navigator screenOptions={{ headerShown : true}} initialRouteName="TimeLine">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
       <Drawer.Screen name="Ranking" component={Ranking} />
+      <Drawer.Screen name="Turma" component={Turma} />
+      <Drawer.Screen name="Objetivos" component={Objetivo} />
       <Drawer.Screen name="Logout" component={Logout} />
       
     </Drawer.Navigator>

@@ -3,9 +3,10 @@ import { View, FlatList, Text, StyleSheet, Button } from 'react-native';
 import { url } from '../../utils/constants';
 const Ranking = () => {
 
-    const [notas, setNotas] = useState([])
-    const [nts, setNts] = useState([])
-    const [notao, setNotao] = useState([])
+    const [notas, setNotas] = useState([]);
+    const [nts, setNts] = useState([]);
+    const [notao, setNotao] = useState([]);
+
 
 
     useEffect(() => {
@@ -91,7 +92,6 @@ const Ranking = () => {
     return (
         <View style={styles.container} >
 
-            <Text>Ranking</Text >
 
              <FlatList
                 data={notao} 
@@ -99,12 +99,6 @@ const Ranking = () => {
                 renderItem={({ item }) => <ObjetiAluno NotaAluno={item.nota} />}
             />
 
-            <Button
-                onPress={PegarNotas}
-                title="Listar"
-                color="#777"
-                accessibilityLabel="Listar"
-            />
             <Button
                 onPress={Ordenar}
                 title="Ordenar"
@@ -117,7 +111,7 @@ const Ranking = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000",
+        backgroundColor: "#fff",
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -126,8 +120,8 @@ const styles = StyleSheet.create({
         height: 70,
         width: 70,
         borderRadius: 70,
-        backgroundColor: '#fff',
-        color: '#000',
+        backgroundColor: '#000',
+        color: '#fff',
         textAlign: 'center',
         marginTop: 20,
         paddingTop: 21,
