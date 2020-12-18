@@ -1,18 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, StyleSheet, Button } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { url } from '../../utils/constants';
+import jwt_decode from 'jwt-decode';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Ranking = () => {
 
     const [notas, setNotas] = useState([]);
     const [nts, setNts] = useState([]);
     const [notao, setNotao] = useState([]);
+    const [token, setToken] = useState('');
 
 
 
     useEffect(() => {
         PegarNotas();
         Ordenar();
+        getData();
     }, [])
+
+      
+    const salvarToken = async (value) => {
+        try {
+
+            await AsyncStorage.setItem('token-edux', value)
+            
+        } catch (e) {
+            // saving error
+        }
+    }
+
+    const getData = async () => {
+        try {
+          const value = await AsyncStorage.getItem('token-edux')
+          if(value !== null) {
+              setToken(value);
+            }
+          
+        } catch(e) {
+          // error reading value
+        }
+      }
 
     const PegarNotas = () => {
 
@@ -81,22 +110,40 @@ const Ranking = () => {
 
 
 
-    const ObjetiAluno = ({ NotaAluno }) => {
+    const ObjetiAluno = (obje) => {
+        const {NotaAluno, usuarioI} = obje;
+       
+       
         return (
-            <View>
+            
+            <View style={styles.circuloT}>
+                <Text style={styles.circuloN} >{usuarioI}</Text>
                 <Text style={styles.circulo} > {NotaAluno} </Text>
             </View>
+                        
         );
-    }
+        
+                        }
+       
+     const renderItem = ({ item }) => (
+      
+     <ObjetiAluno NotaAluno={item.nota}  usuarioI={item.usuario.nome}  />
+        
+                          );
 
+    
     return (
+        
+        
         <View style={styles.container} >
-
-
+          
+            <ScrollView>
+       
              <FlatList
+             
                 data={notao} 
                 keyExtractor={item => item.id}
-                renderItem={({ item }) => <ObjetiAluno NotaAluno={item.nota} />}
+                renderItem={ renderItem  }
             />
 
             <Button
@@ -105,8 +152,11 @@ const Ranking = () => {
                 color="#777"
                 accessibilityLabel="Ordenar"
             />
+            </ScrollView>
         </View >
     )
+    
+                        
 }
 const styles = StyleSheet.create({
     container: {
@@ -123,13 +173,40 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         color: '#fff',
         textAlign: 'center',
+        alignItems: 'center',
         marginTop: 20,
         paddingTop: 21,
         fontSize: 20,
+       
     },
     text: {
         color: '#000',
     },
+    circuloN: {
+        height: 45,
+        width: 180,
+        borderRadius: 70,
+        backgroundColor: 'purple',
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: 20,
+        paddingTop: 21,
+        fontSize: 20,
+        fontWeight:"bold"
+    },
+    circuloT: {
+        height: 200,
+        width: 200,
+        borderRadius: 200,
+        backgroundColor: 'purple',
+        color: '#fff',
+        textAlign: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+        paddingTop: 21,
+        fontSize: 20,
+        marginLeft: 55
+    }
 
 
 

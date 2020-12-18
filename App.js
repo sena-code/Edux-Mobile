@@ -12,6 +12,7 @@ import Login from './pages/login';
 import TimeLine from './pages/Timeline';
 import Ranking from './pages/Ranking';
 import Objetivo from './pages/objetivo';
+import Aluno from './pages/Aluno';
 
 const Stack  = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -28,11 +29,12 @@ const Professor = () => {
   )
 }
 
-const Aluno = ({navigation}) => {
+const Alunos = ({navigation}) => {
   return (
     <Drawer.Navigator screenOptions={{ headerShown : true}} initialRouteName="TimeLine">
       <Drawer.Screen name="TimeLine" component={TimeLine} />
       <Drawer.Screen name="Ranking" component={Ranking} />
+      <Drawer.Screen name="Alunos" component={Aluno} />
       <Drawer.Screen name="Turma" component={Turma} />
       <Drawer.Screen name="Objetivos" component={Objetivo} />
       <Drawer.Screen name="Logout" component={Logout} />
@@ -61,7 +63,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Professor" component={Professor} />
-        <Stack.Screen name="Aluno" component={Aluno}/>
+        <Stack.Screen name="Aluno" component={Alunos}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
